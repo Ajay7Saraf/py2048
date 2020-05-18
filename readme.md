@@ -23,8 +23,22 @@ pip install pynput
 
 ## Usage
 
-Navigate to where you saved the python file in your command prompt. Now just run 'python 2048.py' and then write --n(To change the playable grid size press a number from 3 to 7 on your keyboard and it will set the grid to nxn where n is the number you pressed.
+Navigate to where you saved the python file in your command prompt(Windows 7). Now just run 'python 2048.py' and then write --n(To change the playable grid size press a number from 3 to 7 on your keyboard and it will set the grid to nxn where n is the number you pressed.
 ) and --w(the winning tile).Then launch the application.
+
+## Info
+We have run this game in command promt of windows 7.
+
+If you are using linux terminal replace
+
+```bash
+os.system('cls')
+```
+with
+
+```bash
+os.system('clear')
+```
 
 ## Playing the Game
 Standard 2048 rules apply.
