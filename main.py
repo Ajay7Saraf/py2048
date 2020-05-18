@@ -1,11 +1,47 @@
 import copy
 import random
 import os
-print("THE GAME OF 2048")
-print("***GAME IS STARTING***")
-boardsize=int(input("enter your game board size:"))
-v=int(input("enter the winning tile:"))
+import argparse
+from pynput import keyboard
+def isPowerOfTwo(x): 
+	return (x and (not(x & (x - 1))) ) 
 
+
+if __name__ == '__main__':
+	parser=argparse.ArgumentParser()
+	parser.add_argument("--n",help="boardsize")
+	parser.add_argument("--w",help="winning tile")
+	args=parser.parse_args()
+
+
+
+
+	 
+print("THE GAME OF 2048")
+
+print("***GAME IS STARTING***")
+v=args.w
+
+if v.isnumeric():
+        v=int(v)
+        while v<2:
+                v=int(input("this winning tile is not possible,enter a valid tile:"))
+        if not isPowerOfTwo(v):
+                v=int(input("enter a number with a power of 2:"))
+  
+
+       
+else:
+	print("your input is not valid,so it is set to default value 2048")
+	v=2048
+boardsize=args.n
+if boardsize.isnumeric():
+    boardsize=int(boardsize)
+    while boardsize<1:
+        boardsize=int(input("this boardsize is not valid,enter a boardsize greater than 1:"))
+else:
+	print("your input is not valid,so it is set to default value 5")
+	boardsize=5
 def newvalue():
     return 2
 def nextnum():
@@ -126,59 +162,162 @@ def lose():
                 b1=merge_right(b1)
                 if b1==b2:
                     return True
-    return False                
-    
-print("here is your game board:")    
-display()
-
-gameover=False
-while not gameover:
-    m=str(input("write letter to move:"))
-    os.system('clear')
-    correctinput=True
-    dupliboard=copy.deepcopy(board)
-    if m =="w":
-       board=merge_up(board)
-        
-        
-    elif m =="s":
-       board=merge_down(board)
-        
-    elif m =="a":
-       board=merge_left(board)
-       
-        
-    elif m =="d":
-       board=merge_right(board)
-        
-        
-    else:
-       correctinput=False
-    
-    if not correctinput:
-        print("your input was wrong,Please try again:")
-        display()
-    else:
-        if won():
-            display()
-            print("You Win by luck.XD!!!")
-            gameover=True
-        else:    
-            nextnum()
-            display()
-            if lose():
-                print("sorry, you lost you dont have more moves to play")
-                gameover=True
-      
-        
-        
-   
+    return False
+def ipt():
+     with keyboard.Events() as events:
+        event = events.get()
+        if event.key == keyboard.KeyCode.from_char('w'):
+            return 'w'
+            
+        if event.key == keyboard.KeyCode.from_char('a'):
+            return 'a'
+            
+        if event.key == keyboard.KeyCode.from_char('s'):
+            return 's'
+            
+        if event.key == keyboard.KeyCode.from_char('d'):
+            return 'd' 
+                  
 
 
+try:
+        if v>2 and boardsize>1:
+                
+                print("here is your game board:")    
+                display()
+              
 
+                gameover=False
+                while not gameover:
+                    print("enter your move")
+                    m=ipt()
+                    os.system('cls')
+                    correctinput=True
+                    dupliboard=copy.deepcopy(board)
+                    if m =="w":
+                       board=merge_up(board)
+                       
+                        
+                        
+                    elif m =="s":
+                       board=merge_down(board)
+                       
+                        
+                    elif m =="a":
+                       board=merge_left(board)
+                       
+                       
+                        
+                    elif m =="d":
+                       board=merge_right(board)
+                       
+                        
+                        
+                    else:
+                       correctinput=False
 
+                    
+                    if not correctinput:
+                        print("your input was wrong,Please try again:")
+                        display()
+                    else:
+                        if board==dupliboard:
+                            print("Try in a different direction,this move does not make any change")
+                            display()
+                        else:
+                            if won():
+                                display()
+                                print("You WON!,by LUCK!")
+                                
+                                gameover=True
+                            else:
+                                nextnum()
+                                display()
+                                if lose():
+                                    print("sorry, you lost .you dont have more steps to play")
+                                    
+                                    gameover=True
 
+        elif v==2 and boardsize>1:
+                v=input("with winning tile 2,game will not played further therefore enter a valid the winning tile:")
 
+                if v.isnumeric():
+                    v=int(v)
+                    while v<2:
+                            v=int(input("this winning tile is not possible,enter a valid tile:"))
+                    if not isPowerOfTwo(v):
+                            v=int(input("enter a number with a power of 2:"))
+                  
+
+                       
+                else:
+                    print("your input is not valid,so it is set to default value 2048")
+                    v=2048           
+           
+                print("here is your game board:")    
+                display()
+                
+
+                gameover=False
+                while not gameover:
+                    print("enter your move")
+                    m=ipt()
+                    os.system('cls')
+                    correctinput=True
+                    dupliboard=copy.deepcopy(board)
+                    if m =="w":
+                       board=merge_up(board)
+                       
+                        
+                        
+                    elif m =="s":
+                       board=merge_down(board)
+                       
+                        
+                    elif m =="a":
+                       board=merge_left(board)
+                       
+                       
+                        
+                    elif m =="d":
+                       board=merge_right(board)
+                       
+                        
+                        
+                    else:
+                       correctinput=False
+                       
+                    
+                    if not correctinput:
+                        print("your input was wrong,Please try again:")
+                        display()
+                    else:
+                        if board==dupliboard:
+                            print("Try in a different direction,this move does not make any change")
+                            display()
+                        else:
+                            if won():
+                                display()
+                                print("volaaa...,you WON!!!")
+                                
+                                gameover=True
+                            else:
+                                nextnum()
+                                display()
+                                if lose():
+                                    print("sorry, you lost .you dont have more steps to play")
+                                    
+                                    gameover=True
+                                    
+        elif v==2 and boardsize==1:
+                display()
+                print("you WON!, by LUCK")
+
+        elif v>2 and boardsize==1:
+                display()
+                print("sorry you lose, AS EXPECTED")
+except Exception as e:
+        print(e)
   
 
 
